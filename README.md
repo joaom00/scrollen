@@ -1,6 +1,6 @@
-# useScroller
+# Scrollen
 
-A react hook utility to handle your scroll easily.
+A react hook utility to manage your scroll easily.
 
 ## Install
 
@@ -28,13 +28,9 @@ const scroller = useScroller()
 
 And that is! Now you can use the utilities functions that are provided by the hook!
 
-### Example
-
-See the example in demo where is created a fake chat
-
 ## Documentation
 
-First of all, the hook uses the Component Store API from Ariakit, refer to the [Ariakit docs](https://ariakit.org/guide/component-stores) to learn how you can use.
+First of all, the hook uses the Component Store API from Ariakit, refer to the [Component Stores Guide](https://ariakit.org/guide/component-stores) to learn how you can use.
 
 ### Props
 

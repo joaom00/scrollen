@@ -7,16 +7,17 @@ import { round } from './utils'
 // TODO: atTopStateChange
 // TODO: atBottomStateChange
 // TODO: onScrollBottom with offset
-// TODO: Pass a custom scroller by props
-// TODO: Build chat example (ala Twitch)
 // TODO: Build "Hide header on scroll" example https://github.com/n8tb1t/use-scroll-position#demo
-// TODO: Build "Hide/show sidebar on scroll" example https://github.com/n8tb1t/use-scroll-position#demo
-// TODO: Build "Display viewport scroll position" example https://github.com/n8tb1t/use-scroll-position#demo
-export function useScroller<TElement extends ScrollElement>(
-  options?: ScrollOptions<ScrollElement>,
+export function useScroller<TElement extends ScrollElement = null>(
+  options: ScrollOptions<ScrollElement> = {},
 ) {
-  const { initialScrollTop, initialScrollLeft, startScrollAt = 'bottom' } = options || {}
-  const store = useStore(() => createScrollStore())
+  const {
+    element: elementProp,
+    initialScrollTop,
+    initialScrollLeft,
+    startScrollAt = 'bottom',
+  } = options
+  const store = useStore(() => createScrollStore({ element: elementProp }))
   const element = store.useState('element')
 
   const onScroll = useEvent(() => {
@@ -24,14 +25,14 @@ export function useScroller<TElement extends ScrollElement>(
     const { scrollLeft, scrollTop, clientWidth, clientHeight, scrollWidth, scrollHeight } = element
     const x = round(scrollLeft / (scrollWidth - clientWidth))
     const y = round(scrollTop / (scrollHeight - clientHeight))
-    store.setScroll(x, y)
 
+    store.setScroll(x, y)
     store.setState('scrollTop', scrollTop)
     store.setState('scrollLeft', scrollLeft)
-    store.setState('isAtTop', scrollTop === 0)
-    store.setState('isAtBottom', scrollTop + clientHeight === scrollHeight)
-    store.setState('isAtLeft', scrollLeft === 0)
-    store.setState('isAtRight', scrollLeft + clientWidth === scrollWidth)
+    store.setState('isAtTop', y === 0)
+    store.setState('isAtBottom', y === 1)
+    store.setState('isAtLeft', x === 0)
+    store.setState('isAtRight', x === 1)
   })
 
   const scrollToTop = useEvent((behavior: ScrollBehavior = 'auto') => {
@@ -151,7 +152,8 @@ function createUseOnScrollBottomAndTop<T extends ScrollElement = null>(element: 
 
 type ScrollElement<TElement = HTMLElement> = TElement | null
 
-export interface ScrollOptions<ScrollElement = HTMLElement> {
+export interface ScrollOptions<ScrollElement = null> {
+  element?: ScrollElement
   initialScrollTop?: number | ((element: ScrollElement) => number)
   initialScrollLeft?: number | ((element: ScrollElement) => number)
   startScrollAt?: 'bottom' | 'right'

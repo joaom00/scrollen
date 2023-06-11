@@ -3,11 +3,11 @@ import { velocityPerSecond } from './utils'
 
 import type { Store } from '@ariakit/core/utils/store'
 
-export function createScrollStore(): ScrollStore {
+export function createScrollStore({ element }: { element?: HTMLElement | null }): ScrollStore {
   let time = 0
 
   const initialState: ScrollStoreState = {
-    element: null,
+    element: element ?? null,
     scrollTop: 0,
     scrollLengthY: 0,
     scrollLengthX: 0,

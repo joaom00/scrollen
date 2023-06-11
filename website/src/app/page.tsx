@@ -5,46 +5,45 @@ import { faker } from '@faker-js/faker'
 import { useScroller } from 'scrollen'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const initialMessages = Array.from({ length: 50 }).map(() => (
-  <>
-    <span className="font-bold">{faker.internet.userName()}: </span> {faker.lorem.sentence()}
-  </>
-))
+const initialMessages = Array.from({ length: 50 }).map(() => ({
+  username: faker.internet.userName(),
+  content: faker.lorem.sentence(),
+}))
 
 const timeoutMessages = [600, 800, 1000, 1200, 1400, 1600, 1800, 2000]
 
 export default function Home() {
   const [messages, setMessages] = React.useState(initialMessages)
   const [newMessages, setNewMessages] = React.useState<typeof initialMessages>([])
-  const scroller = useScroller<HTMLDivElement>({ startScrollAt: 'bottom' })
+  const scroller = useScroller<HTMLDivElement>({
+    startScrollAt: 'bottom',
+  })
 
   const isAtBottom = scroller.useState('isAtBottom')
   const showButton = scroller.useState((state) => state.scrollY <= 0.97)
-  console.log({ showButton })
 
   React.useEffect(() => {
     let intervalId = 0
 
     intervalId = window.setInterval(() => {
       if (isAtBottom) {
+        setNewMessages([])
         ReactDOM.flushSync(() =>
-          setMessages((currentMessages) => [
-            ...currentMessages,
-            <>
-              <span className="font-bold">{faker.internet.userName()}: </span>{' '}
-              {faker.lorem.sentence()}
-            </>,
-          ]),
+          setMessages((currentMessages) =>
+            currentMessages.concat({
+              username: faker.internet.userName(),
+              content: faker.lorem.sentence(),
+            }),
+          ),
         )
         scroller.scrollToBottom()
       } else {
-        setNewMessages((currentNewMessages) => [
-          ...currentNewMessages,
-          <>
-            <span className="font-bold">{faker.internet.userName()}: </span>{' '}
-            {faker.lorem.sentence()}
-          </>,
-        ])
+        setNewMessages((currentNewMessages) =>
+          currentNewMessages.concat({
+            username: faker.internet.userName(),
+            content: faker.lorem.sentence(),
+          }),
+        )
       }
     }, timeoutMessages[Math.floor(Math.random() * timeoutMessages.length)])
 
@@ -63,7 +62,7 @@ export default function Home() {
               className="absolute bottom-20 z-50 left-1/2 translate-x-[-50%] bg-muted text-foreground rounded-sm px-3 py-1.5 text-xs font-medium shadow-lg border border-border"
               onClick={() => {
                 ReactDOM.flushSync(() => {
-                  setMessages((currentMessages) => [...currentMessages, ...newMessages])
+                  setMessages((currentMessages) => currentMessages.concat(newMessages))
                 })
                 setNewMessages([])
                 scroller.scrollToBottom()
@@ -77,8 +76,10 @@ export default function Home() {
           ref={scroller.setScrollerElement}
           className="flex flex-col flex-1 gap-3 p-2 overflow-auto max-h-full"
         >
-          {messages.map((tag, index) => (
-            <div key={index}>{tag}</div>
+          {messages.map((message, index) => (
+            <p key={index}>
+              <span className="font-bold">{message.username}</span>: {message.content}
+            </p>
           ))}
         </div>
         <div className="p-2 relative">

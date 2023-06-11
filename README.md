@@ -10,15 +10,19 @@ npm install scrollen
 
 ## Getting Started
 
-Import and call `useScroller` hook
+To start using the scrollen you need import and call the `useScroller` hook
 
-```ts
+```js
+import { useScroller } from 'scrollen'
+
 const scroller = useScroller()
 ```
 
 then you need to set the scroller element
 
-```tsx
+```jsx
+import { useScroller } from 'scrollen'
+
 const scroller = useScroller()
 
 <div ref={scroller.setScrollerElement}>
@@ -26,11 +30,13 @@ const scroller = useScroller()
 </div>
 ```
 
-And that is! Now you can use the utilities functions that are provided by the hook!
+And that's it! Now you can start playing with your scroller.
 
 ## Documentation
 
-First of all, the hook uses the Component Store API from Ariakit, refer to the [Component Stores Guide](https://ariakit.org/guide/component-stores) to learn how you can use.
+First of all, a huge thanks to [@diegohaz](https://twitter.com/diegohaz) as this library uses the
+Ariakit Component Stores API, so refer to the Ariakit [Component Stores Guide](https://ariakit.org/guide/component-stores) to learn the core
+of the hook.
 
 ### Props
 
@@ -43,26 +49,31 @@ First of all, the hook uses the Component Store API from Ariakit, refer to the [
 - startScrollAt
   Where the scroll container should start. You can pass `bottom` | `right`
 
+
+
 ### State
 
-- element
-  The scroller element.
-- scrollTop
-  The `scrollTop` value for the scroller element.
-- scrollLeft
-  The `scrollLeft` value for the scroller element.
-- scrollWidth
-  The `scrollWidth` value for the scroller element.
-- scrollHeight
-  The `scrollHeight` value for the scroller element.
-- scrollX
-  The progress of the horizontal scroll (between 0 and 1).
-- scrollY
-  The progress of the vertical scroll (between 0 and 1).
-- isAtTop
-  A boolean to know if the scroll is at top.
-- isAtBottom
-  A boolean to know if the scroll is at bottom.
+| State              | Description                                                         |
+| ------------------ | ------------------------------------------------------------------- |
+| `element`          | The scroller element.                                               |
+| `scrollTop`        | The `scrollTop` value for the scroller element.                     |
+| `scrollLeft`       | The `scrollLeft` value for the scroller element.                    |
+| `scrollWidth`      | The `scrollWidth` value for the scroller element.                   |
+| `scrollHeight`     | The `scrollHeight` value for the scroller element.                  |
+| `scrollY`          | The progress of the vertical scroll. (between 0 and 1)              |
+| `scrollX`          | The progress of the horizontal scroll. (between 0 and 1)            |
+| `scrollLengthY`    | The length of the vertical scroll.                                  |
+| `scrollLengthX`    | The length of the horizontal scroll.                                |
+| `velocityY`        | The velocity of the vertical scroll.                                |
+| `velocityX`        | The velocty of the horizontal scroll.                               |
+| `scrollDirectionY` | The direction of the vertical scroll. (`static \| up \| down`)      |
+| `scrollDirectionX` | The direction of the horizontal scroll. (`static \| left \| right`) |
+| `isScrollingY`     | A boolean to check if the vertical scroll is scrolling.             |
+| `isScrollingX`     | A boolean to check if the horizontal scroll is scrolling.           |
+| `isAtTop`          | A boolean to check if the scroll reached the top.                   |
+| `isAtBottom`       | A boolean to check if the scroll reached the bottom.                |
+| `isAtLeft`         | A boolean to check if the scroll reached the left.                  |
+| `isAtRight`        | A boolean to check if the scroll reached the right.                 |
 
 ### Functions
 
@@ -77,5 +88,6 @@ First of all, the hook uses the Component Store API from Ariakit, refer to the [
 
 ## Acknowledgements
 
-- Ariakit - Huge thanks to @diegohaz for the Component Store API where I can make a performant hook
+- Ariakit - Thanks to [@diegohaz](https://twitter.com/diegohaz) for the Component Stores API that
+  made it possible to create a performant hook
 - react-virtuoso - Where I get ideas for the utilities

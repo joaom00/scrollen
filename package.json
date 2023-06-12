@@ -1,10 +1,19 @@
 {
   "name": "scrollen",
   "version": "0.0.0",
-  "description": "",
+  "description": "A performant utility scroll hook for React",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "dist/index.d.ts",
+      "import": "dist/index.mjs",
+      "default": "dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
   "files": [
     "dist"
   ],
@@ -19,7 +28,7 @@
     "scroll",
     "hook"
   ],
-  "author": "João Pedro Magalhães <joaom00.dev@gmail.com",
+  "author": "joaom00",
   "license": "MIT",
   "homepage": "",
   "repository": {

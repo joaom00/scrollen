@@ -40,15 +40,11 @@ of the hook.
 
 ### Props
 
-- initialScrollTop
-  The initial `scrollTop` value to the scroll container.
-
-- initialScrollLeft
-  The initial `scrollLeft` value to the scroll container.
-
-- startScrollAt
-  Where the scroll container should start. You can pass `bottom` | `right`
-
+| Prop                | Description                                                    |
+| ------------------- | -------------------------------------------------------------- |
+| `initialScrollTop`  | The initial `scrollTop` value to the scroller element.         |
+| `initialScrollLeft` | The initial `scrollLeft` value to the scroller element.        |
+| `startScrollAt`     | Where the scroll should start. You can pass `bottom \| right`. |
 
 
 ### State
@@ -77,14 +73,15 @@ of the hook.
 
 ### Functions
 
-- setScrollerElement
-- setScroll
-- scrollToTop
-- scrollToLeft
-- scrollToBottom
-- scrollToRight
-- useOnScrollTop
-- useOnScrollBottom
+| Function             | Description                                                                             |
+| -------------------- | --------------------------------------------------------------------------------------- |
+| `setScrollerElement` | Function to set the scroller element.                                                   |
+| `scrollToTop`        | Function to scroll programatically to top.                                              |
+| `scrollToLeft`       | Function to scroll programatically to left.                                             |
+| `scrollToBottom`     | Function to scroll programatically to bottom.                                           |
+| `scrollToRight`      | Function to scroll programtically to right.                                             |
+| `useOnScrollTop`     | A custom hook to register a callback that is called when the scroll reached the top.    |
+| `useOnScrollBottom`  | A custom hook to register a callback that is called when the scroll reached the bottom. |
 
 ## Acknowledgements
 

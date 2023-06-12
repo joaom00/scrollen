@@ -1,6 +1,6 @@
 # Scrollen
 
-A react hook utility to manage your scroll easily.
+A performant utility scroll hook for React.
 
 ## Install
 
@@ -45,7 +45,6 @@ of the hook.
 | `initialScrollTop`  | The initial `scrollTop` value to the scroller element.         |
 | `initialScrollLeft` | The initial `scrollLeft` value to the scroller element.        |
 | `startScrollAt`     | Where the scroll should start. You can pass `bottom \| right`. |
-
 
 ### State
 

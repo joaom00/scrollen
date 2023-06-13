@@ -1,18 +1,13 @@
 import { createStore } from '@ariakit/core/utils/store'
-import { velocityPerSecond } from './utils'
 
 import type { Store } from '@ariakit/core/utils/store'
 
 export function createScrollStore({ element }: { element?: HTMLElement | null }): ScrollStore {
-  let time = 0
-
   const initialState: ScrollStoreState = {
     element: element ?? null,
     scrollTop: 0,
     scrollLengthY: 0,
     scrollLengthX: 0,
-    velocityY: 0,
-    velocityX: 0,
     scrollLeft: 0,
     scrollWidth: 0,
     scrollHeight: 0,
@@ -24,8 +19,6 @@ export function createScrollStore({ element }: { element?: HTMLElement | null })
     isAtRight: false,
     scrollDirectionY: 'static',
     scrollDirectionX: 'static',
-    isScrollingY: false,
-    isScrollingX: false,
   }
 
   const scroll = createStore(initialState)
@@ -48,64 +41,24 @@ export function createScrollStore({ element }: { element?: HTMLElement | null })
 
   scroll.sync(
     (state, prev) => {
-      const newTime = new Date().getTime()
-      const elapsed = newTime - time
-      const velocity =
-        elapsed > 50 ? 0 : velocityPerSecond(state.scrollTop - prev.scrollTop, elapsed)
-      time = newTime
-      scroll.setState('velocityY', velocity)
+      if (state.scrollTop > prev.scrollTop) {
+        scroll.setState('scrollDirectionY', 'down')
+      } else if (state.scrollTop < prev.scrollTop) {
+        scroll.setState('scrollDirectionY', 'up')
+      }
     },
     ['scrollTop'],
   )
 
   scroll.sync(
     (state, prev) => {
-      const newTime = new Date().getTime()
-      const elapsed = newTime - time
-      const velocity =
-        elapsed > 50 ? 0 : velocityPerSecond(state.scrollLeft - prev.scrollLeft, elapsed)
-      time = newTime
-      scroll.setState('velocityX', velocity)
+      if (state.scrollLeft > prev.scrollLeft) {
+        scroll.setState('scrollDirectionX', 'right')
+      } else if (state.scrollLeft < prev.scrollLeft) {
+        scroll.setState('scrollDirectionX', 'left')
+      }
     },
     ['scrollLeft'],
-  )
-
-  scroll.sync(
-    (state) => {
-      if (state.isAtTop || state.isAtBottom) {
-        scroll.setState('velocityY', 0)
-      }
-    },
-    ['isAtTop', 'isAtBottom'],
-  )
-
-  scroll.sync(
-    (state) => {
-      if (state.isAtLeft || state.isAtRight) {
-        scroll.setState('velocityX', 0)
-      }
-    },
-    ['isAtLeft', 'isAtRight'],
-  )
-
-  scroll.sync(
-    (state) => {
-      scroll.setState('isScrollingY', state.velocityY !== 0)
-      if (state.velocityY > 0) scroll.setState('scrollDirectionY', 'down')
-      if (state.velocityY < 0) scroll.setState('scrollDirectionY', 'up')
-      else scroll.setState('scrollDirectionY', 'static')
-    },
-    ['velocityY'],
-  )
-
-  scroll.sync(
-    (state) => {
-      scroll.setState('isScrollingX', state.velocityX !== 0)
-      if (state.velocityX > 0) scroll.setState('scrollDirectionX', 'right')
-      if (state.velocityX < 0) scroll.setState('scrollDirectionX', 'left')
-      else scroll.setState('scrollDirectionX', 'static')
-    },
-    ['velocityX'],
   )
 
   return {
@@ -130,8 +83,6 @@ export interface ScrollStoreState {
   element: HTMLElement | null
   scrollLengthY: number
   scrollLengthX: number
-  velocityY: number
-  velocityX: number
   scrollTop: number
   scrollLeft: number
   scrollWidth: number
@@ -144,8 +95,6 @@ export interface ScrollStoreState {
   isAtRight: boolean
   scrollDirectionY: 'static' | 'up' | 'down'
   scrollDirectionX: 'static' | 'left' | 'right'
-  isScrollingY: boolean
-  isScrollingX: boolean
 }
 
 export interface ScrollStoreFunctions {

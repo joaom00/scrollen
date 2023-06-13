@@ -15,9 +15,7 @@ const timeoutMessages = [600, 800, 1000, 1200, 1400, 1600, 1800, 2000]
 export default function Home() {
   const [messages, setMessages] = React.useState(initialMessages)
   const [newMessages, setNewMessages] = React.useState<typeof initialMessages>([])
-  const scroller = useScroller<HTMLDivElement>({
-    startScrollAt: 'bottom',
-  })
+  const scroller = useScroller<HTMLDivElement>()
 
   const isAtBottom = scroller.useState('isAtBottom')
   const showButton = scroller.useState((state) => state.scrollY <= 0.97)

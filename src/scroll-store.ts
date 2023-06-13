@@ -4,20 +4,20 @@ import { useStore } from '@ariakit/react-core/utils/store'
 import { createScrollStore } from './create-scroll-store'
 import { round } from './utils'
 
-// TODO: atTopStateChange
-// TODO: atBottomStateChange
-// TODO: onScrollBottom with offset
-// TODO: Build "Hide header on scroll" example https://github.com/n8tb1t/use-scroll-position#demo
 export function useScroller<TElement extends ScrollElement = null>(
   options: ScrollOptions<ScrollElement> = {},
 ) {
   const {
-    element: elementProp,
+    element: elementProp = document,
     initialScrollTop,
     initialScrollLeft,
     startScrollAt = 'bottom',
   } = options
-  const store = useStore(() => createScrollStore({ element: elementProp }))
+  const store = useStore(() =>
+    createScrollStore({
+      element: elementProp instanceof Document ? elementProp.documentElement : elementProp,
+    }),
+  )
   const element = store.useState('element')
 
   const onScroll = useEvent(() => {
@@ -89,8 +89,9 @@ export function useScroller<TElement extends ScrollElement = null>(
 
   React.useEffect(() => {
     if (!element) return
-    element.addEventListener('scroll', onScroll, { passive: true })
-    return () => element.removeEventListener('scroll', onScroll)
+    const target = element === document.documentElement ? document : element
+    target.addEventListener('scroll', onScroll, { passive: true })
+    return () => target.removeEventListener('scroll', onScroll)
   }, [element, onScroll])
 
   return {
@@ -153,7 +154,7 @@ function createUseOnScrollBottomAndTop<T extends ScrollElement = null>(element: 
 type ScrollElement<TElement = HTMLElement> = TElement | null
 
 export interface ScrollOptions<ScrollElement = null> {
-  element?: ScrollElement
+  element?: ScrollElement | Document
   initialScrollTop?: number | ((element: ScrollElement) => number)
   initialScrollLeft?: number | ((element: ScrollElement) => number)
   startScrollAt?: 'bottom' | 'right'

@@ -22,7 +22,9 @@ import { useScroller } from 'scrollen'
 const scroller = useScroller()
 ```
 
-then you need to set the scroller element
+And that's it! By default the hook will listen to scroll on document.
+
+If you want to use a different scroll container, you can use the `setScrollerElement` function
 
 ```jsx
 import { useScroller } from 'scrollen'
@@ -33,8 +35,6 @@ const scroller = useScroller()
   ...
 </div>
 ```
-
-And that's it! Now you can start playing with your scroller.
 
 ### Example
 
@@ -67,12 +67,8 @@ of the hook.
 | `scrollX`          | The progress of the horizontal scroll. (between 0 and 1)            |
 | `scrollLengthY`    | The length of the vertical scroll.                                  |
 | `scrollLengthX`    | The length of the horizontal scroll.                                |
-| `velocityY`        | The velocity of the vertical scroll.                                |
-| `velocityX`        | The velocty of the horizontal scroll.                               |
 | `scrollDirectionY` | The direction of the vertical scroll. (`static \| up \| down`)      |
 | `scrollDirectionX` | The direction of the horizontal scroll. (`static \| left \| right`) |
-| `isScrollingY`     | A boolean to check if the vertical scroll is scrolling.             |
-| `isScrollingX`     | A boolean to check if the horizontal scroll is scrolling.           |
 | `isAtTop`          | A boolean to check if the scroll reached the top.                   |
 | `isAtBottom`       | A boolean to check if the scroll reached the bottom.                |
 | `isAtLeft`         | A boolean to check if the scroll reached the left.                  |

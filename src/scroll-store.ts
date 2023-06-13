@@ -8,7 +8,7 @@ export function useScroller<TElement extends ScrollElement = null>(
   options: ScrollOptions<ScrollElement> = {},
 ) {
   const {
-    element: elementProp = document,
+    element: elementProp = globalThis?.document,
     initialScrollTop,
     initialScrollLeft,
     startScrollAt = 'bottom',
@@ -89,7 +89,7 @@ export function useScroller<TElement extends ScrollElement = null>(
 
   React.useEffect(() => {
     if (!element) return
-    const target = element === document.documentElement ? document : element
+    const target = element === document.documentElement ? globalThis?.document : element
     target.addEventListener('scroll', onScroll, { passive: true })
     return () => target.removeEventListener('scroll', onScroll)
   }, [element, onScroll])

@@ -21,7 +21,8 @@
     "build": "tsup src/index.ts",
     "dev": "tsup src/index.ts --watch",
     "dev:website": "turbo run dev --filter=website...",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "ci:publish": "pnpm publish -r"
   },
   "keywords": [
     "react",

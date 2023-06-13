@@ -1,3 +1,7 @@
+<p align="center">
+<img src="./website/public/og.png" />
+</p>
+
 # Scrollen
 
 A performant utility scroll hook for React.
@@ -31,6 +35,10 @@ const scroller = useScroller()
 ```
 
 And that's it! Now you can start playing with your scroller.
+
+### Example
+
+See this [small example](https://github.com/joaom00/scrollen/blob/main/website/src/app/page.tsx) of how you can use the hook.
 
 ## Documentation
 
@@ -85,5 +93,5 @@ of the hook.
 ## Acknowledgements
 
 - Ariakit - Thanks to [@diegohaz](https://twitter.com/diegohaz) for the Component Stores API that
-  made it possible to create a performant hook
-- react-virtuoso - Where I get ideas for the utilities
+  made it possible to create a performant hook.
+- react-virtuoso - Where did I get ideas for utilities.

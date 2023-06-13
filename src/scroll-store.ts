@@ -4,6 +4,10 @@ import { useStore } from '@ariakit/react-core/utils/store'
 import { createScrollStore } from './create-scroll-store'
 import { round } from './utils'
 
+function isDocument(element: any): element is Document {
+  return globalThis?.document === element
+}
+
 export function useScroller<TElement extends ScrollElement = null>(
   options: ScrollOptions<ScrollElement> = {},
 ) {
@@ -15,7 +19,7 @@ export function useScroller<TElement extends ScrollElement = null>(
   } = options
   const store = useStore(() =>
     createScrollStore({
-      element: elementProp instanceof Document ? elementProp.documentElement : elementProp,
+      element: isDocument(elementProp) ? elementProp?.documentElement : elementProp,
     }),
   )
   const element = store.useState('element')
